@@ -1,0 +1,45 @@
+---
+- name: Test if docker is installed
+  command: docker
+  register: docker_installed
+  ignore_errors: yes
+
+- debug:
+    msg: Docker package is not installed!
+  when: docker_installed is failed
+
+- block:
+  - apt:
+      name:
+        - apt-transport-https
+      state: present
+
+  - apt_key:
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
+
+  - apt_repository:
+      repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+      filename: kubernetes
+      state: present
+      update_cache: true
+
+  - package:
+      name: kubectl
+      state: present
+
+  - get_url:
+      url: "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
+      dest: /usr/local/bin/minikube
+      mode: 0755
+
+  become: yes
+  when: docker_installed is succeeded
+
+- block:
+  - shell: "minikube start --vm-driver=none"
+  - shell: "nohup minikube dashboard --url > /dev/null 2>&1 &"
+  - shell: "nohup kubectl proxy --port=30000 --address='0.0.0.0' --disable-filter=true > /dev/null 2>&1 &"
+  become: yes
+
+
