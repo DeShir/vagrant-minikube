@@ -1,0 +1,14 @@
+---
+- block:
+  - apt:
+      name: python-pip
+      state: present
+  - pip:
+      name: docker-py
+      state: present
+  - docker_container:
+      name: registry
+      image: registry:2
+      ports:
+        - '5000:5000'
+  become: yes

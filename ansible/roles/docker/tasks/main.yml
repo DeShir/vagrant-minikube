@@ -22,10 +22,9 @@
         name: docker-ce
         state: present
 
-    - user:
-        name: "{{ docker_user }}"
-        groups: docker
-        append: yes
-      when: docker_user is defined
-
+#    - user:
+#        name: "{{ docker_user }}"
+#        groups: docker
+#        append: yes
+#      when: docker_user is defined
   become: yes

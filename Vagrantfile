@@ -12,10 +12,10 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "ansible/", "/srv/ansible"
 
   config.vm.network "forwarded_port", guest: 30000, host: 30000, auto_correct: true
+  config.vm.network "forwarded_port", guest: 5000, host: 5000, auto_correct: true
+  config.vm.network "private_network", ip: "192.168.50.4"
 
   config.vm.provision :ansible_local do |ansible|
     ansible.playbook = "/srv/ansible/vagrant.yml"
-    ansible.verbose = true
-    ansible.extra_vars = {docker_user: "vagrant"}
   end
 end

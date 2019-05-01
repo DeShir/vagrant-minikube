@@ -5,4 +5,4 @@
     - check
     - docker
     - minikube
-#    - truffle
+    - registry2
