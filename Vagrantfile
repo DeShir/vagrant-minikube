@@ -9,6 +9,11 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "debian/stretch64"
 
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 4 * 1024
+    v.cpus = 2
+  end
+
   config.vm.synced_folder "ansible/", "/srv/ansible"
 
   config.vm.network "forwarded_port", guest: 30000, host: 30000, auto_correct: true
