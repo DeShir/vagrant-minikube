@@ -40,6 +40,7 @@
   - shell: "minikube start --vm-driver=none"
   - shell: "nohup minikube dashboard --url > /dev/null 2>&1 &"
   - shell: "nohup kubectl proxy --port=30000 --address='0.0.0.0' --disable-filter=true > /dev/null 2>&1 &"
+  - shell: "minikube addons enable ingress"
   become: yes
 
 
